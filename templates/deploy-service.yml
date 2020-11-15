@@ -14,5 +14,4 @@ stages:
         repository: '$(imageName)'
         command: 'build'
         Dockerfile: '**/Dockerfile'
-        buildContext: '$(Build.SourcesDirectory)/src/'
         tags: '$(tag)'
