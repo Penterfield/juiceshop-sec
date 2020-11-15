@@ -1,1 +1,10 @@
+# azure-pipelines.yml
 
+trigger:
+- master
+
+resources:
+- repo: self
+
+stages:
+- template: templates/deploy-service.yml@pipeline
