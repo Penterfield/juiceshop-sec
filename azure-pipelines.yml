@@ -7,4 +7,4 @@ resources:
 - repo: self
 
 stages:
-- template: templates/deploy-service.yml@pipeline
+- template: templates/deploy-service.yml
