@@ -9,6 +9,10 @@ resources:
 variables:
   tag: 'azuredevops-$(Build.BuildNumber)'
   imageName: '121456782pen/container-scanning-demo'
+  vmImageName: 'ubuntu-latest'
+  imageRepository: 'vossec'
+  dockerRegistryServiceConnection: 'ACR'
+  
 
 stages:
 - template: templates/deploy-service.yml
