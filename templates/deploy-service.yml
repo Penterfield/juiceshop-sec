@@ -11,9 +11,9 @@ stages:
       displayName: Build image
       inputs:
         command: 'build'
-        repository: '$(imageRepository)'
+        repository: $(imageRepository)
         dockerfile:  '**/Dockerfile'
-        containerRegistry: '$(dockerRegistryServiceConnection)'
+        containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
-          '$(tag)'
+          $(tag)
 
