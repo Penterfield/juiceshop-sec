@@ -7,8 +7,8 @@
     - task: SnykSecurityScan@0
       displayName: 'Snyk Security Scan'
       inputs:
-    	serviceConnectionEndpoint: 'Snyk'
-    	testType: 'app'
-    	monitorOnBuild: true
-    	failOnIssues: false
-    	projectName: 'AZ_Juice'
+        serviceConnectionEndpoint: 'Snyk'
+        testType: 'app'
+        monitorOnBuild: true
+        failOnIssues: false
+        projectName: 'AZ_Juice'
