@@ -16,5 +16,12 @@ variables:
 
 stages:
   - stage: Build
+    displayName: 'Build docker Container'
     jobs:
     - template: templates/build-docker.yml
+    
+  - stage: Test
+    displayName: 'Snyk Application Security Scanning'
+    dependsOn: Build
+    jobs:
+    - template: templates/snyk-app-scan.yml
