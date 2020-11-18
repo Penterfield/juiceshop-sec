@@ -1,20 +1,14 @@
-- task: SnykSecurityScan@0
-  inputs:
-    serviceConnectionEndpoint: 'Snyk'
-    testType: 'app'
-    monitorOnBuild: true
-    failOnIssues: false
-    projectName: 'AZ_Juice'
-
-- script: |
-    docker build -t juiceshop .
-    docker images
-    docker images | grep juiceshop
-    sudo docker images | grep juiceshop
-  displayName: 'build Docker image'
-
-- task: SnykSecurityScan@0
-  inputs:
-    serviceConnectionEndpoint: 'Snyk'
-    testType: 'container'
-    dockerImageName: 'juiceshop'
+  jobs:  
+  - job: Test
+    displayName: Test
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: SnykSecurityScan@0
+      displayName: 'Snyk Security Scan'
+      inputs:
+    	serviceConnectionEndpoint: 'Snyk'
+    	testType: 'app'
+    	monitorOnBuild: true
+    	failOnIssues: false
+    	projectName: 'AZ_Juice'
