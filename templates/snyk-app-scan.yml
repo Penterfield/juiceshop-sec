@@ -7,16 +7,24 @@
     - task: NodeTool@0
       inputs: 
         versionSpec: '10.x'
-      displayName: 'Install Node.js'
+      displayName: 'npm install and build'
     - script: |
         npm install
         npm run build
-      displayName: 'npm install and build'
     - task: SnykSecurityScan@0
-      displayName: 'Snyk Security Scan'
+      displayName: 'Snyk SCA Security Scan'
       inputs:
         serviceConnectionEndpoint: 'Snyk'
         testType: 'app'
         monitorOnBuild: true
         failOnIssues: false
         projectName: 'AZ_Juice'
+    - task: SnykSecurityScan@0
+      displayName: 'Snyk Container Security Scan'
+      inputs:
+        serviceConnectionEndpoint: 'Snyk'
+        testType: 'container'
+        dockerImageName: $(imageName)
+        dockerfilePath: '**/Dockerfile'
+        monitorOnBuild: true
+        failOnIssues: false
