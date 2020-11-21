@@ -1,6 +1,6 @@
   jobs:  
-  - job: Test
-    displayName: Test
+  - job: 'Security Test'
+    displayName: 'Security Test'
     pool:
       vmImage: $(vmImageName)
     steps:
