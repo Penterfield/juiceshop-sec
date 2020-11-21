@@ -1,6 +1,6 @@
   jobs:  
   - job: Security_Test
-    displayName: 'Security Test'
+    displayName: 'Security Tests'
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -25,6 +25,6 @@
         serviceConnectionEndpoint: 'Snyk'
         testType: 'container'
         dockerImageName: $(imageName)
-        dockerfilePath: '**/Dockerfile'
+        dockerfilePath: 'Dockerfile'
         monitorOnBuild: true
         failOnIssues: false
