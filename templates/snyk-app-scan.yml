@@ -1,5 +1,5 @@
   jobs:  
-  - job: 'Security Test'
+  - job: Security_Test
     displayName: 'Security Test'
     pool:
       vmImage: $(vmImageName)
