@@ -19,12 +19,3 @@
         monitorOnBuild: true
         failOnIssues: false
         projectName: 'AZ_Juice'
-    - task: SnykSecurityScan@0
-      displayName: 'Snyk Container Security Scan'
-      inputs:
-        serviceConnectionEndpoint: 'Snyk'
-        testType: 'container'
-        dockerImageName: $(imageName)
-        dockerfilePath: 'Dockerfile'
-        monitorOnBuild: true
-        failOnIssues: false
