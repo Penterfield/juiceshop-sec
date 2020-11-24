@@ -1,7 +1,4 @@
 
-variables:
-  trivyVersion: 0.12.0
-  
  jobs:  
   - job: Security_Test
     displayName: 'Trivy Security Test'
