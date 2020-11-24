@@ -25,3 +25,9 @@ stages:
     dependsOn: Build
     jobs:
     - template: templates/snyk-app-scan.yml
+    
+  - stage: Test
+    displayName: 'Trivy Docker Security Scanning'
+    dependsOn: Build
+    jobs:
+    - template: templates/trivy-security-scan.yml
