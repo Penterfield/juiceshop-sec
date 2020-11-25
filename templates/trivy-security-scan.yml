@@ -1,6 +1,6 @@
   jobs:  
   - job: Test
-    displayName: 'Trivy Tests'
+    displayName: 'Trivy'
     pool:
       vmImage: $(vmImageName)
     steps:

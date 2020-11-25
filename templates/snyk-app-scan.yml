@@ -1,6 +1,6 @@
   jobs:  
   - job: Test
-    displayName: 'Snyk App Test'
+    displayName: 'Snyk App'
     pool:
       vmImage: $(vmImageName)
     steps:
