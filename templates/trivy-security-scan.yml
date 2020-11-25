@@ -1,37 +1,33 @@
-jobs:  
-- job: Security_Tests
-  steps:
-  - task: 
-      inputs:
-        script: |
-            sudo apt-get install rpm
-            wget https://github.com/aquasecurity/trivy/releases/download/v$(trivyVersion)/trivy_$(trivyVersion)_Linux-64bit.deb
-            sudo dpkg -i trivy_$(trivyVersion)_Linux-64bit.deb
-            trivy -v
-            
-    displayName: 'Download and install Trivy'
-  - task: CmdLine@2
-    displayName: "Run trivy scan"
-      inputs:
-        script: |
-          trivy image --severity LOW,MEDIUM --format template --template "@templates/junit.tpl" -o junit-report-low-med.xml $(imageName):$(tag)         
-          trivy image --severity HIGH,CRITICAL --format template --template "@templates/junit.tpl" -o junit-report-high-crit.xml $(imageName):$(tag)         
+steps:
+- script: |
+    git clone https://github.com/aquasecurity/trivy
+    export GO111MODULE=on
+  displayName: 'Clone Trivy'
 
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '**/junit-report-low-med.xml'
-      mergeTestResults: true
-      failTaskOnFailedTests: false
-      testRunTitle: 'Trivy - Low and Medium Vulnerabilities'
-    condition: 'always()'   
+- task: Go@0
+  displayName: "Install Trivy"
+  inputs:
+    command: 'build'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/trivy/cmd/trivy'
 
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '**/junit-report-high-crit.xml'
-      mergeTestResults: true
-      failTaskOnFailedTests: true
-      testRunTitle: 'Trivy - High and Critical Vulnerabilities'
-    condition: 'always()'             
+- task: CmdLine@2
+  displayName: Run Trivy scan
+  inputs:
+    script: |
+      $(System.DefaultWorkingDirectory)/trivy/cmd/trivy/trivy image --format template --template "@templates/junit.tpl" -o junit-report.xml ruby:2.4.0 
+      cp $(System.DefaultWorkingDirectory)/junit-report.xml $(Build.ArtifactStagingDirectory)/junit-report.xml
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit-*.xml'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+    testRunTitle: 'Trivy'
+  condition: 'always()'
