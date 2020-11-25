@@ -1,5 +1,5 @@
   jobs:  
-  - job: Snyk_Test
+  - job: Test
     displayName: 'Snyk App Test'
     pool:
       vmImage: $(vmImageName)
