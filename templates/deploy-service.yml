@@ -12,6 +12,5 @@
         repository: $(imageRepository)
         dockerfile:  '**/Dockerfile'
         containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+        tags: $(tag)
 

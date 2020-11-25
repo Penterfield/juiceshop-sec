@@ -5,13 +5,12 @@
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: Docker@2
+    - task: Docker
       displayName: Build image
       inputs:
         command: 'build'
-        repository: '$(imageRepository)'
+        repository: $(imageRepository)
         dockerfile:  '**/Dockerfile'
         containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+        tags: $(tag)
 
