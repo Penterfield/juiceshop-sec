@@ -4,10 +4,10 @@
     pool:
       vmImage: $(vmImageName)
     steps:
-    - script: |
+      script: |
         git clone https://github.com/aquasecurity/trivy
         export GO111MODULE=on
-    displayName: 'Clone Trivy'
+      displayName: 'Clone Trivy'
 
     - task: Go@0
       displayName: "Install Trivy"
