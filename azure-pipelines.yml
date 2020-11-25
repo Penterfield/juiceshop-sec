@@ -8,7 +8,7 @@ resources:
 
 variables:
   tag: 'azuredevops-$(Build.BuildNumber)'
-  imageName: '121456782pen/container-scanning-demo'
+  imageName: 'container-scanning-demo'
   vmImageName: 'ubuntu-latest'
   imageRepository: 'vossec'
   dockerRegistryServiceConnection: 'ACR'
