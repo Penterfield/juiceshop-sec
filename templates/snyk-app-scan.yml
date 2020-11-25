@@ -1,6 +1,6 @@
   jobs:  
-  - job: Security_Test
-    displayName: 'Security Tests'
+  - job: Snyk_Test
+    displayName: 'Snyk App Test'
     pool:
       vmImage: $(vmImageName)
     steps:
