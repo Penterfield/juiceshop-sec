@@ -1,39 +1,38 @@
-trigger:
-- master
+  jobs:  
+  - job: Security_Test
+    displayName: 'Security Tests'
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - script: |
+        git clone https://github.com/aquasecurity/trivy
+        export GO111MODULE=on
+    displayName: 'Clone Trivy'
 
-pool:
-  vmImage: 'ubuntu-latest'
+    - task: Go@0
+      displayName: "Install Trivy"
+      inputs:
+        command: 'build'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/trivy/cmd/trivy'
 
-steps:
-- script: |
-    git clone https://github.com/aquasecurity/trivy
-    export GO111MODULE=on
-  displayName: 'Clone Trivy'
+    - task: CmdLine@2
+      displayName: Run Trivy scan
+      inputs:
+        script: |
+          $(System.DefaultWorkingDirectory)/trivy/cmd/trivy/trivy image --format template --template "@templates/junit.tpl" -o junit-report.xml ruby:2.4.0 
+          cp $(System.DefaultWorkingDirectory)/junit-report.xml $(Build.ArtifactStagingDirectory)/junit-report.xml
 
-- task: Go@0
-  displayName: "Install Trivy"
-  inputs:
-    command: 'build'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/trivy/cmd/trivy'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
 
-- task: CmdLine@2
-  displayName: Run Trivy scan
-  inputs:
-    script: |
-      $(System.DefaultWorkingDirectory)/trivy/cmd/trivy/trivy image --format template --template "@templates/junit.tpl" -o junit-report.xml ruby:2.4.0 
-      cp $(System.DefaultWorkingDirectory)/junit-report.xml $(Build.ArtifactStagingDirectory)/junit-report.xml
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/junit-*.xml'
-    mergeTestResults: true
-    failTaskOnFailedTests: true
-    testRunTitle: 'Trivy'
-  condition: 'always()'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/junit-*.xml'
+        mergeTestResults: true
+        failTaskOnFailedTests: true
+        testRunTitle: 'Trivy'
+    condition: 'always()'
