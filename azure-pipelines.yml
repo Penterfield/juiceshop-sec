@@ -8,10 +8,9 @@ resources:
 
 variables:
   tag: 'azuredevops-$(Build.BuildNumber)'
-  imageName: 'container-scanning-demo'
+  imageName: '121456782pen/container-scanning-demo'
   vmImageName: 'ubuntu-latest'
-  imageRepository: 'vossec'
-  dockerRegistryServiceConnection: 'ACR'
+  dockerRegistryServiceConnection: 'Dockerhub'
   trivyVersion: 0.12.0
   
 
