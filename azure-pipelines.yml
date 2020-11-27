@@ -7,27 +7,38 @@ resources:
 - repo: self
 
 variables:
-  tag: 'azuredevops-$(Build.BuildNumber)'
-  imageName: '121456782pen/container-scanning-demo'
-  vmImageName: 'ubuntu-latest'
-  dockerRegistryServiceConnection: 'Dockerhub'
   trivyVersion: 0.12.0
-  
+  tag: 'azuredevops-$(Build.BuildNumber)'
+  imageName: '121456782pen/container-scanning'
 
 stages:
-  - stage: Build
-    displayName: 'Build docker Container'
-    jobs:
-    - template: templates/build-docker.yml
-    
-  - stage: Snyk
-    displayName: 'Snyk Application Security Scanning'
-    dependsOn: Build
-    jobs:
-    - template: templates/snyk-app-scan.yml
-    
-  - stage: Trivy
-    displayName: 'Trivy Docker Security Scanning'
-    dependsOn: Build
-    jobs:
-    - template: templates/trivy-security-scan.yml
+- stage: Build
+  displayName: Build, Scan and Push image
+  jobs:  
+  - job: Build
+    displayName: Build, Scan and Push
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        containerRegistry: 'Docker hub'
+        repository: '$(imageName)'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+
+    - script: |
+        sudo apt-get install rpm
+        wget https://github.com/aquasecurity/trivy/releases/download/v$(trivyVersion)/trivy_$(trivyVersion)_Linux-64bit.deb
+        sudo dpkg -i trivy_$(trivyVersion)_Linux-64bit.deb
+        trivy -v
+      displayName: 'Download and install Trivy'
+
+    - task: CmdLine@2
+      displayName: "Run trivy scan"
+      inputs:
+        script: |
+            trivy image --exit-code 0 --severity LOW,MEDIUM $(imageName):$(tag)
+            trivy image --exit-code 1 --severity HIGH,CRITICAL $(imageName):$(tag)

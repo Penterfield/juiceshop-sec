@@ -1,0 +1,33 @@
+# azure-pipelines.yml
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: 'azuredevops-$(Build.BuildNumber)'
+  imageName: '121456782pen/container-scanning-demo'
+  vmImageName: 'ubuntu-latest'
+  dockerRegistryServiceConnection: 'Dockerhub'
+  trivyVersion: 0.12.0
+  
+
+stages:
+  - stage: Build
+    displayName: 'Build docker Container'
+    jobs:
+    - template: templates/build-docker.yml
+    
+  - stage: Snyk
+    displayName: 'Snyk Application Security Scanning'
+    dependsOn: Build
+    jobs:
+    - template: templates/snyk-app-scan.yml
+    
+  - stage: Trivy
+    displayName: 'Trivy Docker Security Scanning'
+    dependsOn: Build
+    jobs:
+    - template: templates/trivy-security-scan.yml
