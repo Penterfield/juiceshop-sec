@@ -13,3 +13,15 @@ steps:
     monitorOnBuild: true
     failOnIssues: false
     projectName: 'AZ_Juice'
+    script: |
+      snyk test --severity HIGH,CRITICAL --format template --template "@templates/junit.tpl" -o junit-report-high-crit.xml $(imageName):$(tag)         
+
+- task: PublishTestResults@2
+  displayName: "Snyk critical and high risk issues"
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit-report-high-crit.xml'
+    mergeTestResults: true
+    failTaskOnFailedTests: false
+    testRunTitle: 'Snyk App - Critical and High Vulnerabilities'
+  condition: 'always()' 

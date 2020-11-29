@@ -14,6 +14,7 @@ steps:
       trivy image --severity HIGH,CRITICAL --format template --template "@templates/junit.tpl" -o junit-report-high-crit.xml $(imageName):$(tag)         
 
 - task: PublishTestResults@2
+  displayName: "Trivy medium and low risk issues"
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/junit-report-low-med.xml'
@@ -23,11 +24,11 @@ steps:
   condition: 'always()'   
 
 - task: PublishTestResults@2
+  displayName: "Trivy critical and high risk issues"
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/junit-report-high-crit.xml'
     mergeTestResults: true
     failTaskOnFailedTests: false
     testRunTitle: 'Trivy - High and Critical Vulnerabilities'
-  condition: 'always()'  
-   
+  condition: 'always()'
