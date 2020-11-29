@@ -19,4 +19,6 @@ steps:
   - template: templates/build-docker.yml
     
   - template: templates/trivy-security-scan.yml
+  
+  - template: templates/snyk-app-scan.yml
     

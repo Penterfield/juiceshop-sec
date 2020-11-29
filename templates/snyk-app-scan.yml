@@ -1,21 +1,17 @@
-  jobs:  
-  - job: Test
-    displayName: 'Snyk App'
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: NodeTool@0
-      inputs: 
-        versionSpec: '10.x'
-      displayName: 'npm install and build'
-    - script: |
-        npm install
-        npm run build
-    - task: SnykSecurityScan@0
-      displayName: 'Snyk SCA Security Scan'
-      inputs:
-        serviceConnectionEndpoint: 'Snyk'
-        testType: 'app'
-        monitorOnBuild: true
-        failOnIssues: false
-        projectName: 'AZ_Juice'
+steps:
+- task: NodeTool@0
+  inputs: 
+    versionSpec: '10.x'
+  displayName: 'npm install and build'
+  - script: |
+      npm install
+      npm run build
+      
+- task: SnykSecurityScan@0
+  displayName: 'Snyk SCA Security Scan'
+  inputs:
+    serviceConnectionEndpoint: 'Snyk'
+    testType: 'app'
+    monitorOnBuild: true
+    failOnIssues: false
+    projectName: 'AZ_Juice'
