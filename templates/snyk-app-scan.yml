@@ -1,9 +1,9 @@
 steps:
 - task: NodeTool@0
+  displayName: 'npm install and build'
   inputs: 
     versionSpec: '10.x'
-  displayName: 'npm install and build'
-  - script: |
+    script: |
       npm install
       npm run build
       
