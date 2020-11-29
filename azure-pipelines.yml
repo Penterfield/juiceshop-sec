@@ -17,9 +17,6 @@ pool:
 
 steps:
   - template: templates/build-docker.yml
-    displayName: 'Build docker Container'
     
   - template: templates/trivy-security-scan.yml
-    displayName: 'Trivy Docker Security Scanning'
-    dependsOn: Build
     
