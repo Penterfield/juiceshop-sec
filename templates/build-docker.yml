@@ -1,16 +1,10 @@
-
-  jobs:  
-  - job: Build
-    displayName: Build job
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build image
-      inputs:
-        command: 'build'
-        repository: '$(imageName)'
-        dockerfile:  '**/Dockerfile'
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: '$(tag)'
+steps:
+- task: Docker@2
+  displayName: Build an image
+  inputs:
+    containerRegistry: 'Dockerhub'
+    repository: '$(imageName)'
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
+    tags: '$(tag)'
 
