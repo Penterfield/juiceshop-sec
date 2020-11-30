@@ -14,7 +14,8 @@ steps:
     failOnIssues: false
     projectName: 'AZ_Juice'
     script: |
-      snyk test --severity HIGH,CRITICAL --format template --template "@templates/junit.tpl" -o junit-report-high-crit.xml $(imageName):$(tag)         
+      snyk test --severity HIGH,CRITICAL --format template --template "@templates/junit.tpl" -o junit-report-high-crit.xml $(imageName):$(tag)
+      snyk test --severity MEDIUM,LOW --format template --template "@templates/junit.tpl" -o junit-report-high-crit.xml $(imageName):$(tag)        
 
 - task: PublishTestResults@2
   displayName: "Snyk critical and high risk issues"
@@ -25,3 +26,13 @@ steps:
     failTaskOnFailedTests: false
     testRunTitle: 'Snyk App - Critical and High Vulnerabilities'
   condition: 'always()' 
+
+- task: PublishTestResults@2
+  displayName: "Snyk medium and low risk issues"
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit-report-low-med.xml'
+    mergeTestResults: true
+    failTaskOnFailedTests: false
+    testRunTitle: 'Snyk - Medium and Low Vulnerabilities'
+  condition: 'always()'  
