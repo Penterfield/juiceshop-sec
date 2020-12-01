@@ -5,6 +5,7 @@ steps:
     serviceConnectionEndpoint: 'Snyk'
     testType: 'container'
     dockerImageName: '$(imageName)'
+    tags: '$(tag)'
     monitorOnBuild: true
     failOnIssues: false
     projectName: 'AZ_Juice'
