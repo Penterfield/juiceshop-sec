@@ -6,4 +6,5 @@ steps:
     repository: '$(imageName)'
     command: 'build'
     Dockerfile: '**/Dockerfile'
+    tags: '$(tag)'
 
