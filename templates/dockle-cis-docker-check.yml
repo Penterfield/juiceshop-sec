@@ -11,7 +11,7 @@
 #
 
 parameters:
-  - name: image
+  - name: '$(imageName)'
   - name: reportFormat
     default: 'json' # allowed values are  'json'
   - name: reportPath # relative to workingDirectory

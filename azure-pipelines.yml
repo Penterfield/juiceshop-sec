@@ -23,4 +23,6 @@ steps:
   - template: templates/snyk-app-scan.yml
   
   - template: templates/snyk-container-scan.yml
+  
+  - template: templates/dockle-cis-docker-check.yml
     
