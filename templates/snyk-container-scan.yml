@@ -1,18 +1,10 @@
 steps:
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    workingDir: .
-    verbose: false
-
-
 - task: SnykSecurityScan@0
   displayName: 'Snyk Container Security Scan'
   inputs:
     serviceConnectionEndpoint: 'Snyk'
     testType: 'container'
     dockerImageName: '$(imageName)'
-    dockerfilePath: 'Dockerfile'
     monitorOnBuild: true
     failOnIssues: false
     projectName: 'AZ_Juice'
