@@ -14,15 +14,15 @@ variables:
 
 pool:
   vmImage: 'ubuntu-latest'
-
-steps:
-  - template: templates/build-docker.yml
+  
+jobs:
+- template: templates/build-docker.yml
     
-  - template: templates/trivy-security-scan.yml
+#- template: templates/trivy-security-scan.yml
+
+#- template: templates/snyk-app-scan.yml
   
-  - template: templates/snyk-app-scan.yml
+#- template: templates/snyk-container-scan.yml
   
-  - template: templates/snyk-container-scan.yml
-  
-  - template: templates/dockle-container.yml
+#- template: templates/dockle-container.yml
     
