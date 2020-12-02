@@ -1,7 +1,7 @@
 jobs:
 - job: Build Image
   steps:
-  - inputs:
+    inputs:
       containerRegistry: 'Dockerhub'
       repository: '$(imageName)'
       command: 'build'
