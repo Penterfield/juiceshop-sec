@@ -1,5 +1,5 @@
 jobs:
-- job: 'Docker Build'
+- job: 'Docker_Build'
   steps:
   - task: Docker@2
     displayName: Build an image
