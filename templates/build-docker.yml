@@ -1,10 +1,10 @@
-jobs:
-- job: Build Image
-  steps:
-    inputs:
-      containerRegistry: 'Dockerhub'
-      repository: '$(imageName)'
-      command: 'build'
-      Dockerfile: '**/Dockerfile'
-      tags: '$(tag)'
+steps:
+- task: Docker@2
+  displayName: Build an image
+  inputs:
+    containerRegistry: 'Dockerhub'
+    repository: '$(imageName)'
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
+    tags: '$(tag)'
 
