@@ -12,15 +12,17 @@ variables:
   dockerRegistryServiceConnection: 'Dockerhub'
   trivyVersion: 0.12.0
 
-pool:
-  vmImage: 'ubuntu-latest'
+
 
 stages:
   - stage: build
     jobs:
-    - job: build_docker_image
-    - template: templates/build-docker.yml
-
+    - job: build_container
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+      - template: templates/build-docker.yml
+    
 # - template: templates/trivy-security-scan.yml
  
 #  - template: templates/snyk-app-scan.yml
