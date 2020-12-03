@@ -18,8 +18,10 @@ pool:
 stages:
   - stage: build
     jobs:
-    - template: templates/build-docker.yml
-    - template: templates/trivy-security-scan.yml
+    - job: build_docker_image
+    	- template: templates/build-docker.yml
+
+# - template: templates/trivy-security-scan.yml
  
 #  - template: templates/snyk-app-scan.yml
   
