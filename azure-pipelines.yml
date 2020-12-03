@@ -19,12 +19,8 @@ stages:
   - stage: build
     jobs:
     - template: templates/build-docker.yml
-    
-  - stage: test
-    jobs:
     - template: templates/trivy-security-scan.yml
-    dependsOn: build
-  
+ 
 #  - template: templates/snyk-app-scan.yml
   
 #  - template: templates/snyk-container-scan.yml
