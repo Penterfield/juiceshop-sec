@@ -17,14 +17,16 @@ variables:
 stages:
   - stage: build
     jobs:
-    - job: build_container
+    - job: Snyk_App_Scan
+      - template: templates/snyk-app-scan.yml
+    - job: build_security_scan_container
       pool:
         vmImage: 'ubuntu-latest'
       steps:
       - template: templates/build-docker.yml
       - template: templates/trivy-security-scan.yml
  
-#  - template: templates/snyk-app-scan.yml
+
   
 #  - template: templates/snyk-container-scan.yml
   
