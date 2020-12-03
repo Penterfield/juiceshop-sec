@@ -23,6 +23,7 @@ stages:
   - stage: test
     jobs:
     - template: templates/trivy-security-scan.yml
+    dependsOn: build
   
 #  - template: templates/snyk-app-scan.yml
   
