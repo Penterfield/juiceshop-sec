@@ -19,7 +19,7 @@ stages:
   - stage: build
     jobs:
     - job: build_docker_image
-    	- template: templates/build-docker.yml
+    - template: templates/build-docker.yml
 
 # - template: templates/trivy-security-scan.yml
  
