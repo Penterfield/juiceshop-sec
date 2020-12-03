@@ -1,5 +1,4 @@
-jobs:
-- job: 'Trivy_Container_Scan'
+
   steps:
   - script: |
       sudo apt-get install rpm
