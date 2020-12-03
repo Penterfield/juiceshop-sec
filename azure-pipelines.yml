@@ -18,6 +18,7 @@ stages:
   - stage: build
     jobs:
     - job: Snyk_App_Scan
+      steps:
       - template: templates/snyk-app-scan.yml
     - job: build_security_scan_container
       pool:
